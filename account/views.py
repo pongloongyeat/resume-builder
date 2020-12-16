@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import RegisterForm
 
 # Create your views here.
 def login_view(response):
@@ -9,7 +8,7 @@ def login_view(response):
         form = AuthenticationForm(data=response.POST)
 
         if form.is_valid():
-            return redirect(LOGIN_REDIRECT_URL)
+            return redirect('admin:index')
         else:
             # TODO: Add a popover or something
             print("WRONG")

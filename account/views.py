@@ -1,21 +1,37 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import RegisterForm
 
 # Create your views here.
-def login_view(request):
-    context = {}
+def login_view(response):
+    if response.method == "POST":
+        form = AuthenticationForm(data=response.POST)
 
-    return render(request, 'account/login.html', context)
+        if form.is_valid():
+            return redirect(LOGIN_REDIRECT_URL)
+        else:
+            # TODO: Add a popover or something
+            print("WRONG")
+
+    else:
+        form = AuthenticationForm()
+
+    context = {
+        "form": form
+    }
+
+    return render(response, 'account/login.html', context)
 
 def register_view(response):
     if response.method == "POST":
-        form = RegisterForm(response.POST)
+        form = UserCreationForm(response.POST)
 
         if form.is_valid():
-            form.save()
+            return redirect(LOGIN_REDIRECT_URL)
 
     else:
-        form = RegisterForm()
+        form = UserCreationForm()
 
     context = {
         "form": form

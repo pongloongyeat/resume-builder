@@ -9,9 +9,6 @@ def login_view(response):
 
         if form.is_valid():
             return redirect('admin:index')
-        else:
-            # TODO: Add a popover or something
-            print("WRONG")
 
     else:
         form = AuthenticationForm()

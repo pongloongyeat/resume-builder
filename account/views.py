@@ -8,7 +8,7 @@ def login_view(response):
         form = AuthenticationForm(data=response.POST)
 
         if form.is_valid():
-            return redirect('admin:index')
+            return redirect('dashboard')
 
     else:
         form = AuthenticationForm()

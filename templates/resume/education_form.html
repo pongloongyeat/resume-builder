@@ -1,0 +1,50 @@
+{% load static %}
+
+{% block headers %}
+<link rel="stylesheet" type="text/css" href="{% static 'resume/css/edit.css' %}">
+{% endblock headers %}
+
+<form method="POST">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Institution</label>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Course</label>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Start date</label>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">End date</label>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Country</label>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+            </div>
+        </div>
+    </div>
+</form>

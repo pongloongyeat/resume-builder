@@ -14,13 +14,19 @@
     <div class="row">
         <div class="col edit-title">
             <a class="" href="dashboard">&lt</a>
-            <h3>Edit my résumé</h3>
+            <h3>Create my résumé</h3>
             <hr/>
 
             <h4>Personal details</h4>
             <br/>
 
             {% include 'resume/personal_form.html' %}
+
+
+            <h4>Education</h4>
+            <br/>
+
+            {% include 'resume/education_form.html' %}
             <button type="submit" class="btn btn-primary">Create my résumé!</button>
         </div>
 

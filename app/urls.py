@@ -22,8 +22,9 @@ from resume import views as resume_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', account_views.login_view, name='login'),
+    path('', account_views.login_view, name='index'),
     path('login/', account_views.login_view, name='login'),
+    path('logout/', account_views.logout_view, name='logout'),
     path('register/', account_views.register_view, name='register'),
 
     path('resume/dashboard', resume_views.dashboard_view, name='dashboard'),

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.conf import settings
 
@@ -27,6 +27,18 @@ def login_view(response):
     }
 
     return render(response, 'account/login.html', context)
+
+def logout_view(response):
+    context = {
+        "message": ""
+    }
+
+    if response.user.is_authenticated:
+        logout(response)
+        return redirect(settings.LOGOUT_REDIRECT_URL)
+    else:
+        context['message'] = "You're not logged in why would you logout D:"
+        return render(response, 'oops.html', context)
 
 def register_view(response):
     if response.method == "POST":

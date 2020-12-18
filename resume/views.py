@@ -15,7 +15,6 @@ def create_view(response):
         personal_form = PersonalDetailsForm(data=response.POST)
 
         if personal_form.is_valid():
-            print(personal_form.cleaned_data['first_name'])
             pass
 
     else:

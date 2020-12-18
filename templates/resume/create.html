@@ -1,1 +1,28 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block headers %}
+<link rel="stylesheet" type="text/css" href="{% static 'resume/css/edit.css' %}">
+{% endblock headers %}
+
+{% block title %}Create new résumé{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col edit-title">
+            <a class="" href="dashboard">&lt</a>
+            <h3>Edit my résumé</h3>
+            <hr/>
+            <p>Form goes here</p>
+            <button type="submit" class="btn btn-primary">Create my résumé!</button>
+        </div>
+
+        <div class="col">
+            <p>PDF preview should go here</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

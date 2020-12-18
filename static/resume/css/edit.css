@@ -1,0 +1,20 @@
+.edit-title h1 {
+    margin: 0;
+    display: inline;
+}
+
+.edit-title a {
+    float: left;
+    font-size: 32px;
+
+    /* Reset margins and padding */
+    margin: 0;
+    padding: 0;
+
+    /* Apply custom margin so it looks more inline */
+    margin-top: -8px;
+    margin-left: 8px;
+    margin-right: 16px;
+
+    text-decoration: none;
+}

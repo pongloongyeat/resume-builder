@@ -5,6 +5,11 @@ from django.conf import settings
 
 # Create your views here.
 def login_view(response):
+    # No need to login if user
+    # is authenticated
+    if response.user.is_authenticated:
+        return redirect(settings.LOGIN_REDIRECT_URL)
+
     if response.method == "POST":
         form = AuthenticationForm(data=response.POST)
 

@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block headers %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+{% endblock headers %}
+
 {% block title %}Dashboard{% endblock title %}
 
 {% block content %}
-This is the dashboard page
+<div class="dashboard-title">
+    <h1>Dashboard</h1>
+    <a class="btn btn-success right-align" href="create">+ Create new Résumé</a>
+</div>
+
+<hr/>
+
+<!-- TODO: List of Résumés go here -->
+
 {% endblock content %}

@@ -1,0 +1,9 @@
+.dashboard-title h1 {
+    margin: 0;
+    display: inline-block;
+}
+
+.dashboard-title a {
+    float: right;
+    margin-top: 6px;
+}

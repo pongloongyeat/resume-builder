@@ -16,18 +16,22 @@
             <a class="" href="dashboard">&lt</a>
             <h3>Create my résumé</h3>
             <hr/>
+            <form method="POST" action="#">
+                {% csrf_token %}
 
-            <h4>Personal details</h4>
-            <br/>
+                <h4>Personal details</h4>
+                <br/>
 
-            {% include 'resume/personal_form.html' %}
+                {% include 'resume/personal_form.html' %}
 
 
-            <h4>Education</h4>
-            <br/>
+                <h4>Education</h4>
+                <br/>
 
-            {% include 'resume/education_form.html' %}
-            <button type="submit" class="btn btn-primary">Create my résumé!</button>
+                {% include 'resume/education_form.html' %}
+
+                <button type="submit" class="btn btn-primary">Create my résumé!</button>
+            </form>
         </div>
 
         <div class="col">

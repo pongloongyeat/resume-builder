@@ -34,12 +34,12 @@ class PersonalDetailsForm(forms.Form):
         fields = ["first_name", "last_name", "email_address", "phone", "about_me"]
 
 class EducationForm(forms.Form):
-    institution = forms.CharField(max_length=50)
-    course      = forms.CharField(max_length=75)
-    start_date  = MonthField()
-    end_date    = MonthField()
-    country     = forms.CharField(max_length=60) # Longest belongs to UK with 56 chars!
-    description = forms.CharField(widget=forms.Textarea(), max_length=300)
+    institution = forms.CharField(max_length=50, required=False)
+    course      = forms.CharField(max_length=75, required=False)
+    start_date  = MonthField(required=False)
+    end_date    = MonthField(required=False)
+    country     = forms.CharField(max_length=60, required=False) # Longest belongs to UK with 56 chars!
+    description = forms.CharField(widget=forms.Textarea(), max_length=300, required=False)
 
     # Stying-related
     institution.widget.attrs.update({

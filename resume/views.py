@@ -7,3 +7,9 @@ def dashboard_view(request):
     context = {}
 
     return render(request, 'resume/dashboard.html', context)
+
+@login_required(login_url='login')
+def create_view(request):
+    context = {}
+
+    return render(request, 'resume/create.html', context)

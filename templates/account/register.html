@@ -4,9 +4,11 @@
 {% block title %}Register an account{% endblock title %}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
 {% endblock content %}

@@ -1,38 +1,31 @@
-<form method="POST">
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label for="exampleInputEmail1">First name</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Last name</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
+{% load crispy_forms_tags %}
+
+{{ personal_form.non_field_errors|as_crispy_errors }}
+<div class="row">
+    <div class="col">
+        {{ personal_form.first_name.errors|as_crispy_errors }}
+        {{ personal_form.first_name|as_crispy_field }}
     </div>
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="text" class="form-control">
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Phone</label>
-                <input type="tel" class="form-control">
-            </div>
-        </div>
+    <div class="col">
+            {{ personal_form.last_name.errors|as_crispy_errors }}
+            {{ personal_form.last_name|as_crispy_field }}
     </div>
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label for="exampleInputEmail1">About me</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
-            </div>
-        </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ personal_form.email_address.errors|as_crispy_errors }}
+        {{ personal_form.email_address|as_crispy_field }}
     </div>
-</form>
+    <div class="col">
+            {{ personal_form.phone.errors|as_crispy_errors }}
+            {{ personal_form.phone|as_crispy_field }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ personal_form.about_me.errors|as_crispy_errors }}
+        {{ personal_form.about_me|as_crispy_field }}
+    </div>
+</div>

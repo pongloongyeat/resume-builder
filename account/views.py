@@ -9,6 +9,9 @@ def login_view(response):
         form = AuthenticationForm(data=response.POST)
 
         if form.is_valid():
+            # Log user in
+            user = form.get_user()
+            login(response, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
 
     else:
@@ -25,6 +28,9 @@ def register_view(response):
         form = UserCreationForm(response.POST)
 
         if form.is_valid():
+            # Log user in
+            user = form.get_user()
+            login(response, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
 
     else:

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block headers %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'resume/css/dashboard.css' %}">
 {% endblock headers %}
 
 {% block title %}Dashboard{% endblock title %}
@@ -12,12 +12,12 @@
 <div class="container">
     <div class="dashboard-title">
         <h1>Dashboard</h1>
-        <a class="btn btn-success right-align" href="create">+ Create new Résumé</a>
+        <a class="btn btn-success" href="create">+ Create new Résumé</a>
     </div>
+
+    <hr/>
+
+    <!-- TODO: List of Résumés go here -->
 </div>
-
-<hr/>
-
-<!-- TODO: List of Résumés go here -->
 
 {% endblock content %}

@@ -1,42 +1,50 @@
-<div class="row">
-    <div class="col">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Institution</label>
-            <input type="text" class="form-control">
+{% load crispy_forms_tags %}
+
+{{ personal_form.non_field_errors|as_crispy_errors }}
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="mb-0">
+                <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Not specified
+                </button>
+            </h2>
         </div>
-    </div>
-    <div class="col">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Course</label>
-            <input type="text" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-3">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Start date</label>
-            <input type="date" class="form-control">
-        </div>
-    </div>
-    <div class="col-3">
-        <div class="form-group">
-            <label for="exampleInputEmail1">End date</label>
-            <input type="date" class="form-control">
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Country</label>
-            <input type="text" class="form-control">
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+
+        <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        {{ education_form.institution.errors|as_crispy_errors }}
+                        {{ education_form.institution|as_crispy_field }}
+                    </div>
+                    <div class="col">
+                        {{ education_form.course.errors|as_crispy_errors }}
+                        {{ education_form.course|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        {{ education_form.start_date.errors|as_crispy_errors }}
+                        {{ education_form.start_date|as_crispy_field }}
+                    </div>
+                    <div class="col-3">
+                        {{ education_form.end_date.errors|as_crispy_errors }}
+                        {{ education_form.end_date|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ education_form.country.errors|as_crispy_errors }}
+                        {{ education_form.country|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ education_form.description.errors|as_crispy_errors }}
+                        {{ education_form.description|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

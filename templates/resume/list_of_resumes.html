@@ -1,0 +1,5 @@
+<div class="list-group">
+  {% for resume in list_of_resumes %}
+    <a href="edit/{{ resume.pk }}" class="list-group-item list-group-item-action">Resume {{ resume.pk }}</a>
+  {% endfor %}
+</div>

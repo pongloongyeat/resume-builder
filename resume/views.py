@@ -5,7 +5,9 @@ from .forms import PersonalDetailsForm, EducationForm
 # Create your views here.
 @login_required(login_url='login')
 def dashboard_view(request):
-    context = {}
+    context = {
+        "list_of_resumes": request.user.resume_set.all(),
+    }
 
     return render(request, 'resume/dashboard.html', context)
 

@@ -10,7 +10,7 @@ def dashboard_view(request):
     return render(request, 'resume/dashboard.html', context)
 
 @login_required(login_url='login')
-def create_view(response):
+def edit_vew(response):
     id = response.user.id - 1
     collapse_id = len(response.user.resume_set.all()[id].educationdetails_set.all())
     education_forms = []
@@ -44,7 +44,18 @@ def create_view(response):
             pass
 
     else:
-        personal_form = PersonalDetailsForm
+        current_user = response.user
+
+        personal_details = current_user.resume_set.all()[id].personaldetails
+        data = {
+            'first_name': personal_details.first_name,
+            'last_name': personal_details.last_name,
+            'email_address': personal_details.email_address,
+            'phone': personal_details.phone,
+            'about_me': personal_details.about_me
+        }
+
+        personal_form = PersonalDetailsForm(data)
 
         for i in range(0, collapse_id):
             education_forms.append(EducationForm)

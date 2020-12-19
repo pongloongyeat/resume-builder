@@ -32,7 +32,9 @@
 
                 <br/>
 
-                {% include 'resume/education_form.html' %}
+                {% for education_form in education_forms %}
+                    {% include 'resume/education_form.html' with collapse_id=forloop.counter %}
+                {% endfor %}
 
                 <br/>
 

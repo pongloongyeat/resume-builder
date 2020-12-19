@@ -25,9 +25,16 @@
 
                 <br/>
 
-                <h4>Education</h4>
+                <div class="inline-header-button">
+                    <h4>Education</h4>
+                    <button class="btn btn-success" type="submit", name="new_education", value="new_education">Add education</button>
+                </div>
+
                 <br/>
+
                 {% include 'resume/education_form.html' %}
+
+                <br/>
 
                 <button type="submit" class="btn btn-primary">Create my résumé!</button>
             </form>

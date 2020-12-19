@@ -11,7 +11,8 @@ def dashboard_view(request):
 
 @login_required(login_url='login')
 def create_view(response):
-    collapse_id = 1
+    id = response.user.id - 1
+    collapse_id = len(response.user.resume_set.all()[id].educationdetails_set.all())
     education_forms = []
 
     if response.method == "POST":

@@ -15,18 +15,19 @@ def dashboard_view(request):
 
 @login_required(login_url='login')
 def edit_vew(response, pk):
-    # Let's start by defining $resume and $personal_details
-    # first since we are only editing one $resume and a time
-    # and $resume has a one-to-one relation with $personal_details.
     resume = response.user.resume_set.get(pk=pk)
 
     if response.method == "POST":
-        if response.POST.get("new_education"):
-            pass
+        # Fill up them lovely forms
+        personal_form = PersonalDetailsForm(data=response.POST)
+        education_formset = get_education_formset(resume, data=response.POST)
+
+        if personal_form.is_valid() and education_formset.is_valid():
+            personal_form.save()
+            education_formset.save()
     else:
         personal_form = get_personal_form(resume)
-
-        education_formset = get_education_formset(resume, extra=0)
+        education_formset = get_education_formset(resume)
 
     context = {
         "personal_form": personal_form,
@@ -46,7 +47,7 @@ def get_personal_form(user_resume_model):
         'about_me': personal_details.about_me,
     })
 
-def get_education_formset(user_resume_model, extra):
+def get_education_formset(user_resume_model, data=None, extra=0):
     EducationFormset = inlineformset_factory(Resume, EducationDetails, extra=extra, fields=(
         'institution',
         'course',
@@ -56,7 +57,7 @@ def get_education_formset(user_resume_model, extra):
         'description'
     ))
 
-    education_formset = EducationFormset(instance=user_resume_model)
+    education_formset = EducationFormset(data=data, instance=user_resume_model)
 
     # Somehow crispy tags aren't applying
     # Bootstrap styling onto the inline

@@ -32,7 +32,8 @@
 
                 <br/>
 
-                {% for education_form in education_forms %}
+                {{ education_formset.management_form  }}
+                {% for education_form in education_formset %}
                     {% include 'resume/education_form.html' with collapse_id=forloop.counter %}
                 {% endfor %}
 

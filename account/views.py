@@ -45,11 +45,13 @@ def register_view(response):
     if response.method == "POST":
         form = RegisterForm(response.POST)
 
+        print(response.POST)
+
         if form.is_valid():
             form.save()
 
             # Log user in
-            user = form.get_user()
+            user = form.cleaned_data['email']
             login(response, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
 

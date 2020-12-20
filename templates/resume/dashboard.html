@@ -12,12 +12,14 @@
 <div class="container">
     <div class="dashboard-title">
         <h1>Dashboard</h1>
-        <a class="btn btn-success" href="create">+ Create new Résumé</a>
+        <a class="btn btn-success" href="edit">+ Create new Résumé</a>
     </div>
 
     <hr/>
+    <br/>
 
-    <!-- TODO: List of Résumés go here -->
+    {% include 'resume/list_of_resumes.html' %}
+
 </div>
 
 {% endblock content %}

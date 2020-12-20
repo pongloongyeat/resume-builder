@@ -20,6 +20,9 @@ class PersonalDetails(models.Model):
     phone           = PhoneNumberField(blank=True)
     about_me        = models.CharField(max_length=300, blank=True)
 
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+
 class EducationDetails(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
@@ -29,3 +32,6 @@ class EducationDetails(models.Model):
     end_date    = MonthField(blank=True)
     country     = models.CharField(max_length=60, blank=True) # Longest belongs to UK with 56 chars!
     description = models.CharField(max_length=300, blank=True)
+
+    def __str__(self):
+        return self.institution

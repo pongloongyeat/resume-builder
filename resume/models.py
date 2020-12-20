@@ -25,7 +25,7 @@ class EducationDetails(models.Model):
 
     institution = models.CharField(max_length=50, blank=True)
     course      = models.CharField(max_length=75, blank=True)
-    start_date  = MonthField(null=False, blank=True)
+    start_date  = MonthField(blank=True)
     end_date    = MonthField(blank=True)
     country     = models.CharField(max_length=60, blank=True) # Longest belongs to UK with 56 chars!
     description = models.CharField(max_length=300, blank=True)

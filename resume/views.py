@@ -13,11 +13,11 @@ def dashboard_view(request):
     return render(request, 'resume/dashboard.html', context)
 
 @login_required(login_url='login')
-def edit_vew(response, id):
+def edit_vew(response, pk):
     # Let's start by defining $resume and $personal_details
     # first since we are only editing one $resume and a time
     # and $resume has a one-to-one relation with $personal_details.
-    resume = response.user.resume_set.get(id=id)
+    resume = response.user.resume_set.get(pk=pk)
     personal_details = resume.personaldetails
     education_details_all = resume.educationdetails_set.all()
 

@@ -19,11 +19,15 @@ def edit_vew(response, pk):
 
     if response.method == "POST":
         # Fill up them lovely forms
-        personal_form = PersonalDetailsForm(data=response.POST)
-        education_formset = get_education_formset(resume, data=response.POST)
+        print(response.POST)
+        personal_form = PersonalDetailsForm(data=response.POST, instance=resume.personaldetails)
+        education_formset = get_education_formset(data=response.POST, instance=resume)
 
         if personal_form.is_valid() and education_formset.is_valid():
-            personal_form.save()
+            personal_details_model = personal_form.save(commit=False)
+            personal_details_model.resume = resume
+            personal_details_model.save()
+
             education_formset.save()
     else:
         personal_form = get_personal_form(resume)
@@ -47,7 +51,7 @@ def get_personal_form(user_resume_model):
         'about_me': personal_details.about_me,
     })
 
-def get_education_formset(user_resume_model, data=None, extra=0):
+def get_education_formset(instance, data=None, extra=0):
     EducationFormset = inlineformset_factory(Resume, EducationDetails, extra=extra, fields=(
         'institution',
         'course',
@@ -57,7 +61,7 @@ def get_education_formset(user_resume_model, data=None, extra=0):
         'description'
     ))
 
-    education_formset = EducationFormset(data=data, instance=user_resume_model)
+    education_formset = EducationFormset(data=data, instance=instance)
 
     # Somehow crispy tags aren't applying
     # Bootstrap styling onto the inline

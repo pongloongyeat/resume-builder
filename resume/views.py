@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.forms import inlineformset_factory
-from .forms import PersonalDetailsForm, EducationForm
+from django.forms import inlineformset_factory, Textarea
+from .forms import PersonalDetailsForm
 from .models import Resume, EducationDetails
 
 # Create your views here.
@@ -20,7 +20,6 @@ def edit_vew(response, pk):
     # and $resume has a one-to-one relation with $personal_details.
     resume = response.user.resume_set.get(pk=pk)
     personal_details = resume.personaldetails
-    education_details_all = resume.educationdetails_set.all()
 
     if response.method == "POST":
         if response.POST.get("new_education"):
@@ -63,5 +62,11 @@ def get_education_formset (user_resume_model, extra):
             education_form.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+
+            if field == 'description':
+                education_form.fields[field].widget = Textarea()
+                education_form.fields[field].widget.attrs.update({
+                    'rows': 4
+                })
 
     return education_formset

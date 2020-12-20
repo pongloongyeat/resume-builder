@@ -19,19 +19,12 @@ def edit_vew(response, pk):
     # first since we are only editing one $resume and a time
     # and $resume has a one-to-one relation with $personal_details.
     resume = response.user.resume_set.get(pk=pk)
-    personal_details = resume.personaldetails
 
     if response.method == "POST":
         if response.POST.get("new_education"):
             pass
     else:
-        personal_form = PersonalDetailsForm(initial={
-            'first_name': personal_details.first_name,
-            'last_name': personal_details.last_name,
-            'email_address': personal_details.email_address,
-            'phone': personal_details.phone,
-            'about_me': personal_details.about_me,
-        })
+        personal_form = get_personal_form(resume)
 
         education_formset = get_education_formset(resume, extra=0)
 
@@ -42,7 +35,18 @@ def edit_vew(response, pk):
 
     return render(response, 'resume/create.html', context)
 
-def get_education_formset (user_resume_model, extra):
+def get_personal_form(user_resume_model):
+    personal_details = user_resume_model.personaldetails
+
+    return PersonalDetailsForm(initial={
+        'first_name': personal_details.first_name,
+        'last_name': personal_details.last_name,
+        'email_address': personal_details.email_address,
+        'phone': personal_details.phone,
+        'about_me': personal_details.about_me,
+    })
+
+def get_education_formset(user_resume_model, extra):
     EducationFormset = inlineformset_factory(Resume, EducationDetails, extra=extra, fields=(
         'institution',
         'course',

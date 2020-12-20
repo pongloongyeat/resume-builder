@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import PersonalDetailsForm, EducationForm
+from .models import EducationDetails
 
 # Create your views here.
 @login_required(login_url='login')
@@ -12,60 +13,39 @@ def dashboard_view(request):
     return render(request, 'resume/dashboard.html', context)
 
 @login_required(login_url='login')
-def edit_vew(response):
-    id = response.user.id - 1
-    collapse_id = len(response.user.resume_set.all()[id].educationdetails_set.all())
-    education_forms = []
+def edit_vew(response, id):
+    # Let's start by defining $resume and $personal_details
+    # first since we are only editing one $resume and a time
+    # and $resume has a one-to-one relation with $personal_details.
+    resume = response.user.resume_set.get(id=id)
+    personal_details = resume.personaldetails
+    education_details_all = resume.educationdetails_set.all()
+
+    number_of_education_forms = len(education_details_all)
 
     if response.method == "POST":
-        personal_form = PersonalDetailsForm(data=response.POST)
-
-        # Since we have multiple same forms in one page,
-        # we'll have to parse it through a custom function
-        # since I don't know of any way Django can process
-        # lists of data.
-        education_forms = fill_education_form_list(response.POST, collapse_id)
-
-        # A valid flag removes the need of going through
-        # each form list and checking if all are valid.
-        valid_flag = True
-
-        if personal_form.is_valid() is False:
-            valid_flag = False
-        else:
-            # Personal is valid, we just have to check
-            # others.
-            for education_form in education_forms:
-                if education_form.is_valid() is False:
-                    valid_flag = False
-                    break
-
-        # All forms are valid
-        if valid_flag:
-            print(education_forms[0].cleaned_data['institution'])
+        if response.POST.get("new_education"):
             pass
-
     else:
-        current_user = response.user
-
-        personal_details = current_user.resume_set.all()[id].personaldetails
-        data = {
+        personal_form = PersonalDetailsForm(initial={
             'first_name': personal_details.first_name,
             'last_name': personal_details.last_name,
             'email_address': personal_details.email_address,
             'phone': personal_details.phone,
-            'about_me': personal_details.about_me
-        }
+            'about_me': personal_details.about_me,
+        })
 
-        personal_form = PersonalDetailsForm(data)
-
-        for i in range(0, collapse_id):
-            education_forms.append(EducationForm)
+        education_forms = [EducationForm(initial={
+            'institution': education_details_all[i].institution,
+            'course': education_details_all[i].course,
+            'start_date': education_details_all[i].start_date,
+            'end_date': education_details_all[i].end_date,
+            'country': education_details_all[i].country,
+        }) for i in range(0, number_of_education_forms)]
 
     context = {
         "personal_form": personal_form,
         "education_forms": education_forms,
-        "collapse_id": collapse_id,
     }
 
     return render(response, 'resume/create.html', context)

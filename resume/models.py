@@ -14,9 +14,9 @@ class PersonalDetails(models.Model):
         primary_key=True,
     )
 
-    first_name      = models.CharField(max_length=30)
-    last_name       = models.CharField(max_length=30)
-    email_address   = models.EmailField()
+    first_name      = models.CharField(max_length=30, blank=True)
+    last_name       = models.CharField(max_length=30, blank=True)
+    email_address   = models.EmailField(blank=True)
     phone           = PhoneNumberField(blank=True)
     about_me        = models.CharField(max_length=300, blank=True)
 

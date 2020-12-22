@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory, Textarea
 from .forms import PersonalDetailsForm
-from .models import Resume, EducationDetails
+from .models import Resume, EducationDetails, WorkDetails
 
 # Create your views here.
 @login_required(login_url='login')
@@ -91,3 +91,30 @@ def get_education_formset(instance, data=None, extra=0):
                 })
 
     return education_formset
+
+def get_work_experience_formset(instance, data=None, extra=0):
+    WorkFormset = inlineformset_factory(Resume, WorkDetails, extra=extra, fields=(
+        'position',
+        'company_name',
+        'start_date',
+        'end_date',
+        'country',
+        'description'
+    ))
+
+    work_formset = WorkFormset(data=data, instance=instance)
+
+    # Apply Bootstrap styling
+    for work_form in work_formset:
+        for field in work_form.fields:
+            work_form.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+            if field == 'description':
+                work_form.fields[field].widget = Textarea()
+                work_form.fields[field].widget.attrs.update({
+                    'rows': 4
+                })
+
+    return work_formset

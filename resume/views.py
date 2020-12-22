@@ -16,12 +16,24 @@ def dashboard_view(request):
 @login_required(login_url='login')
 def edit_vew(response, pk):
     resume = response.user.resume_set.get(pk=pk)
+    extra_education_cookie_name = 'extra_education_form_pk_%i'
+    extra_education_forms = response.session.get(extra_education_cookie_name)
+
+    # Initialise extra_education_cookie
+    if type(extra_education_forms) is not int or extra_education_forms is None:
+        response.session[extra_education_cookie_name] = extra_education_forms = 1
 
     if response.method == "POST":
-        # Fill up them lovely forms
-        print(response.POST)
         personal_form = PersonalDetailsForm(data=response.POST, instance=resume.personaldetails)
-        education_formset = get_education_formset(data=response.POST, instance=resume)
+
+        if response.POST.get("new_education"):
+            print("[I] User requested extra education form")
+
+            extra_education_forms += 1
+            response.session[extra_education_cookie_name] = extra_education_forms
+            education_formset = get_education_formset(data=response.POST, instance=resume, extra=4)
+        else:
+            education_formset = get_education_formset(data=response.POST, instance=resume)
 
         if personal_form.is_valid() and education_formset.is_valid():
             personal_details_model = personal_form.save(commit=False)
@@ -31,7 +43,7 @@ def edit_vew(response, pk):
             education_formset.save()
     else:
         personal_form = get_personal_form(resume)
-        education_formset = get_education_formset(resume)
+        education_formset = get_education_formset(resume, extra=extra_education_forms)
 
     context = {
         "personal_form": personal_form,

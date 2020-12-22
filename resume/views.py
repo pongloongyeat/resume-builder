@@ -51,7 +51,7 @@ def get_personal_form(user_resume_model):
         'about_me': personal_details.about_me,
     })
 
-def get_education_formset(instance, data=None, extra=0):
+def get_education_formset(instance, data=None, extra=1):
     EducationFormset = inlineformset_factory(Resume, EducationDetails, extra=extra, fields=(
         'institution',
         'course',

@@ -16,7 +16,9 @@ def dashboard_view(request):
 @login_required(login_url='login')
 def edit_vew(response, pk):
     resume = response.user.resume_set.get(pk=pk)
-    extra_education_cookie_name = 'extra_education_form_pk_%i'
+
+    # Cookie related
+    extra_education_cookie_name = ('extra_education_form_pk_%i' % pk)
     extra_education_forms = response.session.get(extra_education_cookie_name)
 
     # Initialise extra_education_cookie

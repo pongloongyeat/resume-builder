@@ -19,16 +19,20 @@ def edit_vew(response, pk):
 
     if response.method == "POST":
         # Fill up them lovely forms
-        print(response.POST)
         personal_form = PersonalDetailsForm(data=response.POST, instance=resume.personaldetails)
         education_formset = get_education_formset(data=response.POST, instance=resume)
 
         if personal_form.is_valid() and education_formset.is_valid():
+            print("[I] Saving models...")
             personal_details_model = personal_form.save(commit=False)
             personal_details_model.resume = resume
             personal_details_model.save()
 
             education_formset.save()
+        else:
+            if not personal_form.is_valid(): print(personal_form.errors)
+            if not education_formset.is_valid(): print(education_formset.errors)
+
     else:
         personal_form = get_personal_form(resume)
         education_formset = get_education_formset(resume)
@@ -51,7 +55,7 @@ def get_personal_form(user_resume_model):
         'about_me': personal_details.about_me,
     })
 
-def get_education_formset(instance, data=None, extra=1):
+def get_education_formset(instance, data=None, extra=3):
     EducationFormset = inlineformset_factory(Resume, EducationDetails, extra=extra, fields=(
         'institution',
         'course',

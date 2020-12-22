@@ -43,8 +43,26 @@ class WorkDetails(models.Model):
     company_name    = models.CharField(max_length=75, blank=True)
     start_date      = MonthField(blank=True)
     end_date        = MonthField(blank=True)
-    country         = models.CharField(max_length=60, blank=True) # Longest belongs to UK with 56 chars!
+    country         = models.CharField(max_length=60, blank=True)
     description     = models.CharField(max_length=300, blank=True)
 
     def __str__(self):
         return ("%s, %s" % (self.position, self.company_name))
+
+class Skill(models.Model):
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+
+    SKILL_CHOICES = (
+        ('novice', 'Novice'),
+        ('beginner', 'Beginner'),
+        ('skillful', 'Skillful'),
+        ('experienced', 'Experienced'),
+        ('expert', 'Expert')
+    )
+
+    skill_name  = models.CharField(max_length=20, blank=True)
+    skill_level = models.CharField(max_length=11, choices=SKILL_CHOICES, default='novice')
+    description = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        return self.skill_name

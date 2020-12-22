@@ -135,3 +135,6 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Cookies
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'

@@ -21,7 +21,7 @@ class PersonalDetails(models.Model):
     about_me        = models.CharField(max_length=300, blank=True)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return ("%s %s" % (self.first_name, self.last_name))
 
 class EducationDetails(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)

@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-header">
             <h2 class="mb-0">
-                <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ collapse_id }}" aria-expanded="true">
+                <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-work-{{ collapse_id }}" aria-expanded="true">
                     {% if work_form.position.value %}
                         {{ work_form.position.value }}, {{ work_form.company_name.value }}
                     {% else %}
@@ -20,7 +20,7 @@
             </h2>
         </div>
 
-        <div id="collapse{{ collapse_id }}" class="collapse" data-parent="#accordionExample">
+        <div id="collapse-work-{{ collapse_id }}" class="collapse" data-parent="#accordionExample">
             <div class="card-body">
                 <div class="row">
                     <div class="col">

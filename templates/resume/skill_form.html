@@ -1,0 +1,44 @@
+{% load crispy_forms_tags %}
+
+{{ skill_form.non_field_errors|as_crispy_errors }}
+
+{% for hidden in skill_form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="mb-0">
+                <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-skill-{{ collapse_id }}" aria-expanded="true">
+                    {% if skill_form.skill_name.value %}
+                        {{ skill_form.skill_name.value }}
+                    {% else %}
+                        Not specified
+                    {% endif %}
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapse-skill-{{ collapse_id }}" class="collapse" data-parent="#accordionExample">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        {{ skill_form.skill_name.errors|as_crispy_errors }}
+                        {{ skill_form.skill_name|as_crispy_field }}
+                    </div>
+                    <div class="col">
+                        {{ skill_form.skill_level.errors|as_crispy_errors }}
+                        {{ skill_form.skill_level|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ skill_form.description.errors|as_crispy_errors }}
+                        {{ skill_form.description|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

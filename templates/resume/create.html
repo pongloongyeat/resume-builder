@@ -39,6 +39,34 @@
 
                 <br/>
 
+                <div class="inline-header-button">
+                    <h4>Work experience</h4>
+                    <button class="btn btn-success" type="submit", name="new_work", value="new_work">Add work experience</button>
+                </div>
+
+                <br/>
+
+                {{ work_formset.management_form  }}
+                {% for work_form in work_formset %}
+                    {% include 'resume/work_form.html' with collapse_id=forloop.counter %}
+                {% endfor %}
+
+                <br/>
+
+                <div class="inline-header-button">
+                    <h4>Skills</h4>
+                    <button class="btn btn-success" type="submit", name="new_skill", value="new_skill">Add skill</button>
+                </div>
+
+                <br/>
+
+                {{ skill_formset.management_form  }}
+                {% for skill_form in skill_formset %}
+                    {% include 'resume/skill_form.html' with collapse_id=forloop.counter %}
+                {% endfor %}
+
+                <br/>
+
                 <button type="submit" class="btn btn-primary">Create my résumé!</button>
             </form>
         </div>

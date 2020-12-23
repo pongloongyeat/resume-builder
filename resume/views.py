@@ -66,6 +66,8 @@ def edit_vew(response, pk):
             skill_formset       = get_skill_formset(data=response.POST, instance=resume)
 
         if personal_form.is_valid() and education_formset.is_valid() and work_formset.is_valid() and skill_formset.is_valid():
+            print("[I] All forms valid. Saving...")
+
             personal_details_model = personal_form.save(commit=False)
             personal_details_model.resume = resume
             personal_details_model.save()

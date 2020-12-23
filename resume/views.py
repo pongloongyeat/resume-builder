@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory, Textarea
 from .forms import PersonalDetailsForm
-from .models import Resume, EducationDetails, WorkDetails
+from .models import Resume, EducationDetails, WorkDetails, Skill
 
 # Create your views here.
 @login_required(login_url='login')
@@ -55,27 +55,35 @@ def edit_vew(response, pk):
             work_formset = get_work_experience_formset(data=response.POST, instance=resume, extra=extra_work_forms)
 
         elif response.POST.get('new_skill'):
-            pass
+            print("[I] User requested extra skill form")
+
+            extra_skill_forms += 1
+            response.session[extra_work_cookie_name] = extra_skill_forms
+            skill_formset = get_skill_formset(data=response.POST, instance=resume, extra=extra_skill_forms)
         else:
             education_formset   = get_education_formset(data=response.POST, instance=resume)
             work_formset        = get_work_experience_formset(data=response.POST, instance=resume)
+            skill_formset       = get_skill_formset(data=response.POST, instance=resume)
 
-        if personal_form.is_valid() and education_formset.is_valid() and work_formset.is_valid():
+        if personal_form.is_valid() and education_formset.is_valid() and work_formset.is_valid() and skill_formset.is_valid():
             personal_details_model = personal_form.save(commit=False)
             personal_details_model.resume = resume
             personal_details_model.save()
 
             education_formset.save()
             work_formset.save()
+            skill_formset.save()
     else:
-        personal_form = get_personal_form(resume)
-        education_formset = get_education_formset(instance=resume, extra=extra_education_forms)
-        work_formset = get_work_experience_formset(instance=resume, extra=extra_work_forms)
+        personal_form       = get_personal_form(resume)
+        education_formset   = get_education_formset(instance=resume, extra=extra_education_forms)
+        work_formset        = get_work_experience_formset(instance=resume, extra=extra_work_forms)
+        skill_formset       = get_skill_formset(instance=resume, extra=extra_skill_forms)
 
     context = {
         "personal_form": personal_form,
         "education_formset": education_formset,
         "work_formset": work_formset,
+        "skill_formset": skill_formset
     }
 
     return render(response, 'resume/create.html', context)
@@ -146,3 +154,27 @@ def get_work_experience_formset(instance, data=None, extra=0):
                 })
 
     return work_formset
+
+def get_skill_formset(instance, data=None, extra=0):
+    SkillFormset = inlineformset_factory(Resume, Skill, extra=extra, fields=(
+        'skill_name',
+        'skill_level',
+        'description'
+    ))
+
+    skill_formset = SkillFormset(data=data, instance=instance)
+
+    # Apply Bootstrap styling
+    for skill_form in skill_formset:
+        for field in skill_form.fields:
+            skill_form.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+            if field == 'description':
+                skill_form.fields[field].widget = Textarea()
+                skill_form.fields[field].widget.attrs.update({
+                    'rows': 4
+                })
+
+    return skill_formset

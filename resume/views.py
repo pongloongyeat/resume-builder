@@ -21,9 +21,21 @@ def edit_vew(response, pk):
     extra_education_cookie_name = ('extra_education_form_pk_%i' % pk)
     extra_education_forms = response.session.get(extra_education_cookie_name)
 
-    # Initialise extra_education_cookie
+    extra_work_cookie_name = ('extra_work_form_pk_%i' % pk)
+    extra_work_forms = response.session.get(extra_work_cookie_name)
+
+    extra_skill_cookie_name = ('extra_skill_form_pk_%i' % pk)
+    extra_skill_forms = response.session.get(extra_skill_cookie_name)
+
+    # Initialise cookies
     if type(extra_education_forms) is not int or extra_education_forms is None:
         response.session[extra_education_cookie_name] = extra_education_forms = 1
+
+    if type(extra_work_forms) is not int or extra_work_forms is None:
+        response.session[extra_work_cookie_name] = extra_work_forms = 1
+
+    if type(extra_skill_forms) is not int or extra_skill_forms is None:
+        response.session[extra_skill_cookie_name] = extra_skill_forms = 1
 
     if response.method == "POST":
         personal_form = PersonalDetailsForm(data=response.POST, instance=resume.personaldetails)
@@ -33,7 +45,11 @@ def edit_vew(response, pk):
 
             extra_education_forms += 1
             response.session[extra_education_cookie_name] = extra_education_forms
-            education_formset = get_education_formset(data=response.POST, instance=resume, extra=4)
+            education_formset = get_education_formset(data=response.POST, instance=resume, extra=extra_education_forms)
+        elif response.POST.get('new_work'):
+            pass
+        elif response.POST.get('new_skill'):
+            pass
         else:
             education_formset = get_education_formset(data=response.POST, instance=resume)
 

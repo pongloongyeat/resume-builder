@@ -1,8 +1,8 @@
 {% load crispy_forms_tags %}
 
-{{ personal_form.non_field_errors|as_crispy_errors }}
+{{ skill_form.non_field_errors|as_crispy_errors }}
 
-{% for hidden in education_form.hidden_fields %}
+{% for hidden in skill_form.hidden_fields %}
     {{ hidden }}
 {% endfor %}
 

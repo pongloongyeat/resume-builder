@@ -46,26 +46,36 @@ def edit_vew(response, pk):
             extra_education_forms += 1
             response.session[extra_education_cookie_name] = extra_education_forms
             education_formset = get_education_formset(data=response.POST, instance=resume, extra=extra_education_forms)
+
         elif response.POST.get('new_work'):
-            pass
+            print("[I] User requested extra work form")
+
+            extra_work_forms += 1
+            response.session[extra_work_cookie_name] = extra_work_forms
+            work_formset = get_work_experience_formset(data=response.POST, instance=resume, extra=extra_work_forms)
+
         elif response.POST.get('new_skill'):
             pass
         else:
-            education_formset = get_education_formset(data=response.POST, instance=resume)
+            education_formset   = get_education_formset(data=response.POST, instance=resume)
+            work_formset        = get_work_experience_formset(data=response.POST, instance=resume)
 
-        if personal_form.is_valid() and education_formset.is_valid():
+        if personal_form.is_valid() and education_formset.is_valid() and work_formset.is_valid():
             personal_details_model = personal_form.save(commit=False)
             personal_details_model.resume = resume
             personal_details_model.save()
 
             education_formset.save()
+            work_formset.save()
     else:
         personal_form = get_personal_form(resume)
-        education_formset = get_education_formset(resume, extra=extra_education_forms)
+        education_formset = get_education_formset(instance=resume, extra=extra_education_forms)
+        work_formset = get_work_experience_formset(instance=resume, extra=extra_work_forms)
 
     context = {
         "personal_form": personal_form,
         "education_formset": education_formset,
+        "work_formset": work_formset,
     }
 
     return render(response, 'resume/create.html', context)

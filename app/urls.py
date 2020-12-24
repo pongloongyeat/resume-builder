@@ -28,5 +28,6 @@ urlpatterns = [
     path('register/', account_views.register_view, name='register'),
 
     path('resume/dashboard', resume_views.dashboard_view, name='dashboard'),
-    path('resume/edit/<int:pk>', resume_views.edit_vew, name='edit'),
+    path('resume/edit/<int:pk>', resume_views.edit_view, name='edit'),
+    path('resume/create', resume_views.create_view, name='create'),
 ]

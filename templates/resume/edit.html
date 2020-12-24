@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'resume/css/edit.css' %}">
 {% endblock headers %}
 
-{% block title %}Create new résumé{% endblock title %}
+{% block title %}Edit résumé{% endblock title %}
 
 {% block content %}
 <div class="container-fluid">
@@ -15,7 +15,7 @@
         <div class="col">
             <div class="edit-title">
                 <a class="" href="/resume/dashboard">&lt</a>
-                <h3>Create my résumé</h3>
+                <h3>Edit my résumé</h3>
             </div>
             <hr/>
             <form method="POST" action="#">
@@ -69,7 +69,7 @@
 
                 <br/>
 
-                <button type="submit" class="btn btn-primary">Create my résumé!</button>
+                <button type="submit" class="btn btn-primary">Save my résumé</button>
             </form>
         </div>
 

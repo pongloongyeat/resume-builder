@@ -1,8 +1,11 @@
+from django.http import HttpResponse
+from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory, Textarea
 from .forms import PersonalDetailsForm
 from .models import Resume, EducationDetails, WorkDetails, Skill
+from .utils import render_to_pdf
 
 # Create your views here.
 @login_required(login_url='login')
@@ -84,36 +87,54 @@ def edit_view(response, pk):
 
             extra_education_forms += 1
             response.session[extra_education_cookie_name] = extra_education_forms
-            education_formset = get_education_formset(data=response.POST, instance=resume, extra=extra_education_forms)
 
         elif response.POST.get('new_work'):
             print("[I] User requested extra work form")
 
             extra_work_forms += 1
             response.session[extra_work_cookie_name] = extra_work_forms
-            work_formset = get_work_experience_formset(data=response.POST, instance=resume, extra=extra_work_forms)
 
         elif response.POST.get('new_skill'):
             print("[I] User requested extra skill form")
 
             extra_skill_forms += 1
             response.session[extra_work_cookie_name] = extra_skill_forms
-            skill_formset = get_skill_formset(data=response.POST, instance=resume, extra=extra_skill_forms)
+
+        elif response.POST.get('download_pdf'):
+            education_formset = get_education_formset(data=response.POST, instance=resume)
+            work_formset = get_work_experience_formset(data=response.POST, instance=resume)
+            skill_formset = get_skill_formset(data=response.POST, instance=resume)
+
+            context = {
+                "personal_form": personal_form,
+                "education_formset": education_formset,
+                "work_formset": work_formset,
+                "skill_formset": skill_formset
+            }
+
+            pdf = render_to_pdf('resume/resume_preview.html', context)
+            return HttpResponse(pdf, content_type='application/pdf')
+
         else:
             education_formset   = get_education_formset(data=response.POST, instance=resume)
             work_formset        = get_work_experience_formset(data=response.POST, instance=resume)
             skill_formset       = get_skill_formset(data=response.POST, instance=resume)
 
-        if personal_form.is_valid() and education_formset.is_valid() and work_formset.is_valid() and skill_formset.is_valid():
-            print("[I] All forms valid. Saving...")
+            if personal_form.is_valid() and education_formset.is_valid() and work_formset.is_valid() and skill_formset.is_valid():
+                print("[I] All forms valid. Saving...")
 
-            personal_details_model = personal_form.save(commit=False)
-            personal_details_model.resume = resume
-            personal_details_model.save()
+                personal_details_model = personal_form.save(commit=False)
+                personal_details_model.resume = resume
+                personal_details_model.save()
 
-            education_formset.save()
-            work_formset.save()
-            skill_formset.save()
+                education_formset.save()
+                work_formset.save()
+                skill_formset.save()
+
+        education_formset = get_education_formset(data=response.POST, instance=resume, extra=extra_education_forms)
+        work_formset = get_work_experience_formset(data=response.POST, instance=resume, extra=extra_work_forms)
+        skill_formset = get_skill_formset(data=response.POST, instance=resume, extra=extra_skill_forms)
+
     else:
         personal_form       = get_personal_form(resume)
         education_formset   = get_education_formset(instance=resume, extra=extra_education_forms)

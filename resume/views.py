@@ -14,6 +14,43 @@ def dashboard_view(request):
     return render(request, 'resume/dashboard.html', context)
 
 @login_required(login_url='login')
+def create_view(response):
+    resume = Resume(user=response.user)
+
+    if response.method == "POST":
+        personal_form       = PersonalDetailsForm(data=response.POST)
+        education_formset   = get_education_formset(data=response.POST, instance=resume)
+        work_formset        = get_work_experience_formset(data=response.POST, instance=resume)
+        skill_formset       = get_skill_formset(data=response.POST, instance=resume)
+
+        if personal_form.is_valid() and education_formset.is_valid() and work_formset.is_valid() and skill_formset.is_valid():
+            print("[I] All forms valid. Saving...")
+
+            resume.save()
+
+            personal_details_model = personal_form.save(commit=False)
+            personal_details_model.resume = resume
+            personal_details_model.save()
+
+            education_formset.save()
+            work_formset.save()
+            skill_formset.save()
+    else:
+        personal_form       = get_personal_form()
+        education_formset   = get_education_formset(instance=resume, extra=3)
+        work_formset        = get_work_experience_formset(instance=resume, extra=3)
+        skill_formset       = get_skill_formset(instance=resume, extra=3)
+
+    context = {
+        "personal_form": personal_form,
+        "education_formset": education_formset,
+        "work_formset": work_formset,
+        "skill_formset": skill_formset
+    }
+
+    return render(response, 'resume/create.html', context)
+
+@login_required(login_url='login')
 def edit_view(response, pk):
     resume = response.user.resume_set.get(pk=pk)
 
@@ -90,8 +127,11 @@ def edit_view(response, pk):
 
     return render(response, 'resume/edit.html', context)
 
-def get_personal_form(user_resume_model):
-    personal_details = user_resume_model.personaldetails
+def get_personal_form(user_resume_model=None):
+    if user_resume_model is None:
+        return PersonalDetailsForm()
+    else:
+        personal_details = user_resume_model.personaldetails
 
     return PersonalDetailsForm(initial={
         'first_name': personal_details.first_name,

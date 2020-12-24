@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col">
             <div class="edit-title">
-                <a class="" href="/resume/dashboard">&lt</a>
+                <a class="" href="/resume/forms/dashboard">&lt</a>
                 <h3>Create my résumé</h3>
             </div>
             <hr/>
@@ -23,7 +23,7 @@
 
                 <h4>Personal details</h4>
                 <br/>
-                {% include 'resume/personal_form.html' %}
+                {% include 'resume/forms/personal_form.html' %}
 
                 <br/>
 
@@ -36,7 +36,7 @@
 
                 {{ education_formset.management_form  }}
                 {% for education_form in education_formset %}
-                    {% include 'resume/education_form.html' with collapse_id=forloop.counter %}
+                    {% include 'resume/forms/education_form.html' with collapse_id=forloop.counter %}
                 {% endfor %}
 
                 <br/>
@@ -50,7 +50,7 @@
 
                 {{ work_formset.management_form  }}
                 {% for work_form in work_formset %}
-                    {% include 'resume/work_form.html' with collapse_id=forloop.counter %}
+                    {% include 'resume/forms/work_form.html' with collapse_id=forloop.counter %}
                 {% endfor %}
 
                 <br/>
@@ -64,7 +64,7 @@
 
                 {{ skill_formset.management_form  }}
                 {% for skill_form in skill_formset %}
-                    {% include 'resume/skill_form.html' with collapse_id=forloop.counter %}
+                    {% include 'resume/forms/skill_form.html' with collapse_id=forloop.counter %}
                 {% endfor %}
 
                 <br/>

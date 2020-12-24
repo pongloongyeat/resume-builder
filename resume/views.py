@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory, Textarea
 from .forms import PersonalDetailsForm
@@ -35,6 +35,8 @@ def create_view(response):
             education_formset.save()
             work_formset.save()
             skill_formset.save()
+
+            return redirect('edit/%i' % len(response.user.resume_set.all()))
     else:
         personal_form       = get_personal_form()
         education_formset   = get_education_formset(instance=resume, extra=3)

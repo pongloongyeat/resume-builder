@@ -12,9 +12,11 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col edit-title">
-            <a class="" href="/resume/dashboard">&lt</a>
-            <h3>Create my résumé</h3>
+        <div class="col">
+            <div class="edit-title">
+                <a class="" href="/resume/dashboard">&lt</a>
+                <h3>Create my résumé</h3>
+            </div>
             <hr/>
             <form method="POST" action="#">
                 {% csrf_token %}
@@ -72,7 +74,7 @@
         </div>
 
         <div class="col">
-            <p>PDF preview should go here</p>
+            {% include 'resume/resume_preview.html' %}
         </div>
     </div>
 </div>

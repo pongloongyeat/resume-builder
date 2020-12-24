@@ -1,0 +1,91 @@
+{% load static %}
+
+{% block headers %}
+<link rel="stylesheet" type="text/css" href="{% static 'resume/css/preview.css' %}">
+{% endblock headers %}
+
+{% block content %}
+<div class="row">
+    <div class="col text-right">
+        <h4>{{ personal_form.first_name.value }} {{ personal_form.last_name.value }}<h4/>
+        <h5><em>Résumé</em></h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-4 text-justify">
+        {% if personal_form.about_me.value %}
+            <h6>ABOUT ME</h6>
+            <hr/>
+            <p>{{ personal_form.about_me.value }}</p>
+        {% endif %}
+
+        {% if personal_form.phone.value or personal_form.email_address.value %}
+            <h6>CONTACT ME</h6>
+            <hr/>
+            {% if personal_form.phone.value %}
+                <p>Phone: {{ personal_form.phone.value }}</p>
+            {% endif %}
+
+            {% if personal_form.email_address.value %}
+                <p>E-mail: {{ personal_form.email_address.value }}</p>
+            {% endif %}
+        {% endif %}
+
+        <h6>SKILLS</h6>
+        <hr/>
+        <div class="row">
+            {% for skill_form in skill_formset %}
+                {% if skill_form.skill_name.value %}
+                    <div class="col-8">
+                        {{ skill_form.skill_name.value }}
+                    </div>
+                    <div class="col">
+                        <strong>{{ skill_form.skill_level.value }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col">
+        <h6>EDUCATION</h6>
+        <hr/>
+        {% for education_form in education_formset %}
+            {% if education_form.course.value %}
+                <p>
+                    <strong>{{ education_form.course.value }}
+                        {% if education_form.institution.value %}
+                            , <em>{{ education_form.institution.value }}</em>
+                        {% endif %}
+                    </strong>
+
+                    {% if education_form.start_date.value and education_form.end_date.value %}
+                        ({{ education_form.start_date.value }} - {{ education_form.end_date.value }})
+                    {% endif %}
+
+                    <p>{{ education_form.description.value }}</p>
+                </p>
+            {% endif %}
+        {% endfor %}
+
+        <h6>WORK EXPERIENCE</h6>
+        <hr/>
+        {% for work_form in work_formset %}
+            {% if work_form.position.value %}
+                <p>
+                    <strong>{{ work_form.position.value }}
+                        {% if work_form.company_name.value %}
+                            , <em>{{ work_form.company_name.value }}</em>
+                        {% endif %}
+                    </strong>
+
+                    {% if work_form.start_date.value and work_form.end_date.value %}
+                        ({{ work_form.start_date.value }} - {{ work_form.end_date.value }})
+                    {% endif %}
+
+                    <p>{{ work_form.description.value }}</p>
+                </p>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

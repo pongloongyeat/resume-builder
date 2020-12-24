@@ -14,7 +14,7 @@ def dashboard_view(request):
     return render(request, 'resume/dashboard.html', context)
 
 @login_required(login_url='login')
-def edit_vew(response, pk):
+def edit_view(response, pk):
     resume = response.user.resume_set.get(pk=pk)
 
     # Cookie related

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block headers %}
+<link rel="stylesheet" type="text/css" href="{% static 'resume/css/edit.css' %}">
+{% endblock headers %}
+
+{% block title %}Edit résumé{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="edit-title">
+                <a class="" href="/resume/dashboard">&lt</a>
+                <h3>Edit my résumé</h3>
+            </div>
+            <hr/>
+            <form method="POST" action="#">
+                {% csrf_token %}
+
+                <h4>Personal details</h4>
+                <br/>
+                {% include 'resume/forms/personal_form.html' %}
+
+                <br/>
+
+                <div class="inline-header-button">
+                    <h4>Education</h4>
+                    <button class="btn btn-success" type="submit", name="new_education", value="new_education">Add education</button>
+                </div>
+
+                <br/>
+
+                {{ education_formset.management_form  }}
+                {% for education_form in education_formset %}
+                    {% include 'resume/forms/education_form.html' with collapse_id=forloop.counter %}
+                {% endfor %}
+
+                <br/>
+
+                <div class="inline-header-button">
+                    <h4>Work experience</h4>
+                    <button class="btn btn-success" type="submit", name="new_work", value="new_work">Add work experience</button>
+                </div>
+
+                <br/>
+
+                {{ work_formset.management_form  }}
+                {% for work_form in work_formset %}
+                    {% include 'resume/forms/work_form.html' with collapse_id=forloop.counter %}
+                {% endfor %}
+
+                <br/>
+
+                <div class="inline-header-button">
+                    <h4>Skills</h4>
+                    <button class="btn btn-success" type="submit", name="new_skill", value="new_skill">Add skill</button>
+                </div>
+
+                <br/>
+
+                {{ skill_formset.management_form  }}
+                {% for skill_form in skill_formset %}
+                    {% include 'resume/forms/skill_form.html' with collapse_id=forloop.counter %}
+                {% endfor %}
+
+                <br/>
+
+                <button type="submit" class="btn btn-primary">Save my résumé</button>
+            </form>
+        </div>
+
+        <div class="col">
+            {% include 'resume/resume_preview.html' %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

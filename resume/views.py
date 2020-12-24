@@ -88,7 +88,7 @@ def edit_vew(response, pk):
         "skill_formset": skill_formset
     }
 
-    return render(response, 'resume/create.html', context)
+    return render(response, 'resume/edit.html', context)
 
 def get_personal_form(user_resume_model):
     personal_details = user_resume_model.personaldetails

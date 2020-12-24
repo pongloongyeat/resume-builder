@@ -53,11 +53,11 @@ class Skill(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
     SKILL_CHOICES = (
-        ('novice', 'Novice'),
-        ('beginner', 'Beginner'),
-        ('skillful', 'Skillful'),
-        ('experienced', 'Experienced'),
-        ('expert', 'Expert')
+        ('Novice', 'Novice'),
+        ('Beginner', 'Beginner'),
+        ('Skillful', 'Skillful'),
+        ('Experienced', 'Experienced'),
+        ('Expert', 'Expert')
     )
 
     skill_name  = models.CharField(max_length=20, blank=True)
